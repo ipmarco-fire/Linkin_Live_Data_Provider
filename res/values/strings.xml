@@ -1,0 +1,4 @@
+<resources>
+	<string name="all_channels" translatable="false">全部频道</string>
+	<string name="live_favorites">收藏夹</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="add_all">true</bool>
+    <bool name="add_fav">true</bool>
+    <bool name="multi_language">false</bool>
+</resources>

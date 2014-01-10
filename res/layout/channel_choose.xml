@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="346dp"
+    android:layout_height="603dp"
+    android:background="@drawable/live_ok_bg"
+    android:orientation="vertical" >
+    
+	 <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="295dp"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="24dp"
+        />
+</LinearLayout>
