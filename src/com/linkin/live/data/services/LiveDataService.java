@@ -77,7 +77,9 @@ public class LiveDataService extends Service {
     }
 
     private boolean getChannelJSON() {
+        Log.i(Config.TAG,"start channel url");
         String channelContent = SynHtmlUtil.get(Config.CHANNLE_URL);
+        Log.i(Config.TAG,"end url : "+ (channelContent != null && channelContent.indexOf("typeLists") > 0) );
         if (channelContent != null && channelContent.indexOf("typeLists") > 0) {
             SharedPreferences prefs = getSharedPreferences(SHARED_NAME, 0);
             long curTime = Calendar.getInstance().getTimeInMillis();
