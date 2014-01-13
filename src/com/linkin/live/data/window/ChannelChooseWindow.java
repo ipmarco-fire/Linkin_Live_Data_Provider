@@ -34,7 +34,7 @@ public class ChannelChooseWindow extends BaseWindow{
     LayoutInflater mInflater;
 
     public ChannelChooseWindow(Context context) {
-        super(context, R.layout.channel_choose, 346, 603);
+        super(context, R.layout.channel_choose, 346, 720);
         
         mInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
