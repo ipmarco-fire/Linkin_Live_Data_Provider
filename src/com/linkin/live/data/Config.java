@@ -8,7 +8,8 @@ public class Config {
     public static final String ACTION_AFTER_INIT_LIVE = "com.linkin.live.data.ACTION_AFTER_INIT_LIVE";
     public static final String ACTION_AFTER_INIT_EPG = "com.linkin.live.data.ACTION_AFTER_INIT_EPG";
     
-    public static final String WEB_URL = "http://live.shanzhai.us/";
+    public static final String WEB_URL = "http://sales.ipmacro.com/";
+    
     public static final String CHANNLE_URL = WEB_URL+"/licenseFile/live/channelListAndroid_.html"; 
     public static final String EPG_URL = WEB_URL + "/licenseFile/epg/";
 }
