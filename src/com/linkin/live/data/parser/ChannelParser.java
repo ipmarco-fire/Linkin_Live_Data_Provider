@@ -32,10 +32,11 @@ public class ChannelParser {
         boolean addAll = res.getBoolean(R.bool.add_all);
         boolean addFav = res.getBoolean(R.bool.add_fav);
         boolean multiLanguage = res.getBoolean(R.bool.multi_language);
-        return parser(channelContent, localIp, addAll, addFav, multiLanguage);
+        boolean subType = res.getBoolean(R.bool.sub_type);
+        return parser(channelContent, localIp, addAll, addFav, multiLanguage,subType);
     }
 
-    public List<ChannelType> parser(String channelContent, String localIp, boolean addAll, boolean addFav, boolean multiLanguage) throws JSONException {
+    public List<ChannelType> parser(String channelContent, String localIp, boolean addAll, boolean addFav, boolean multiLanguage,boolean subType) throws JSONException {
         Map<String, Boolean> favMap = null;
         if (addFav) {
             FavManager favManager = new FavManager(context);
@@ -86,43 +87,51 @@ public class ChannelParser {
                 if (map.has("subTypeLists")) {
                     JSONArray subTypeLists = map.getJSONArray("subTypeLists");
                     String loacalPinyin = "";
+                    
                     for (int m = 0; m < subTypeLists.length(); m++) {
                         JSONObject obj = subTypeLists.getJSONObject(m);
                         String pinyin = obj.getString("pinyin");
                         if (localIp != null && pinyin != null && pinyin.toLowerCase().indexOf(localIp.toLowerCase()) > -1) {
                             loacalPinyin = pinyin;
-                            JSONObject map2 = obj.getJSONObject("map");
-                            JSONArray channelLists = map2.getJSONArray("channelLists");
-                            for (int j = 0; j < channelLists.length(); j++) {
-                                JSONObject channelObj = channelLists.getJSONObject(j);
-                                Channel ch = parserObjToChannel(channelObj, multiLanguage, lang);
-                                type.addChild(ch);
-                                String cid = ch.getId();
-                                if (!idMap.containsKey(cid)) {
-                                    channelList.add(ch);
-                                    idMap.put(cid, true);
+                            ChannelType subTypeObj = parserSubType(obj, multiLanguage, lang);
+                            List<Channel> channelLists = subTypeObj.getChannelList();
+                            if(channelLists!=null && channelLists.size() > 0){
+                                for(Channel ch : channelLists){
+                                    String cid = ch.getId();
+                                    if (!idMap.containsKey(cid)) {
+                                        channelList.add(ch);
+                                        idMap.put(cid, true);
+                                    }
+                                }
+                                if(subType){
+                                    typeList.add(subTypeObj);
                                 }
                             }
+                            
                         }
                     }
-
                     for (int m = 0; m < subTypeLists.length(); m++) {
                         JSONObject obj = subTypeLists.getJSONObject(m);
                         String pinyin = obj.getString("pinyin");
                         if (!pinyin.equals(loacalPinyin)) {
-                            JSONObject map2 = obj.getJSONObject("map");
-                            JSONArray channelLists = map2.getJSONArray("channelLists");
-                            for (int j = 0; j < channelLists.length(); j++) {
-                                JSONObject channelObj = channelLists.getJSONObject(j);
-                                Channel ch = parserObjToChannel(channelObj, multiLanguage, lang);
-                                type.addChild(ch);
-                                String cid = ch.getId();
-                                if (!idMap.containsKey(cid)) {
-                                    channelList.add(ch);
-                                    idMap.put(cid, true);
+                            ChannelType subTypeObj = parserSubType(obj, multiLanguage, lang);
+                            List<Channel> channelLists = subTypeObj.getChannelList();
+                            if(channelLists!=null && channelLists.size() > 0){
+                                for(Channel ch : channelLists){
+                                    String cid = ch.getId();
+                                    if (!idMap.containsKey(cid)) {
+                                        channelList.add(ch);
+                                        idMap.put(cid, true);
+                                    }
+                                }
+                                if(subType){
+                                    typeList.add(subTypeObj);
                                 }
                             }
                         }
+                    }
+                    if(subType && subTypeLists.length() > 0){
+                        continue;
                     }
                 }
 
@@ -155,6 +164,21 @@ public class ChannelParser {
         return typeList;
     }
 
+    private static ChannelType parserSubType(JSONObject obj,boolean multiLanguage,String lang) throws JSONException{
+        String pinyin = obj.getString("pinyin");
+        String id = obj.getString("id");
+        String name = obj.getString("name");
+        ChannelType type = new ChannelType(id, name, pinyin);
+        JSONObject map2 = obj.getJSONObject("map");
+        JSONArray channelLists = map2.getJSONArray("channelLists");
+        for (int j = 0; j < channelLists.length(); j++) {
+            JSONObject channelObj = channelLists.getJSONObject(j);
+            Channel ch = parserObjToChannel(channelObj, multiLanguage, lang);
+            type.addChild(ch);
+        }
+        return type;
+    }
+    
     private static Channel parserObjToChannel(JSONObject channelObj, boolean multiLanguage, String lang) throws JSONException {
         String cid = channelObj.getString("id");
         String logo = channelObj.getString("image");

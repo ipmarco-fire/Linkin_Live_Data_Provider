@@ -2,5 +2,7 @@
 <resources>
     <bool name="add_all">true</bool>
     <bool name="add_fav">true</bool>
+    <!-- 是否将子分类独立出来 -->
+    <bool name="sub_type">false</bool>
     <bool name="multi_language">false</bool>
 </resources>

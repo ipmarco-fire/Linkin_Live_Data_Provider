@@ -1,6 +1,7 @@
 package com.linkin.live.data;
 
 
+import com.linkin.live.data.model.Channel;
 import com.linkin.live.data.model.ChannelType;
 import com.linkin.live.data.model.EPG;
 
@@ -33,5 +34,14 @@ public class LiveDataProvider {
     
     public static boolean isEpgEmpty(){
         return epgMap==null || epgMap.size() == 0;
+    }
+    
+    public static List<EPG> getEpgList(Channel ch){
+        if(!isEpgEmpty()){
+            if(epgMap.containsKey(ch.getId())){
+                return epgMap.get(ch.getId());
+            }
+        }
+        return null;
     }
 }
