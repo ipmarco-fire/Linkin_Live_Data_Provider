@@ -38,11 +38,12 @@ public class LiveDataService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(Config.TAG, "onCreate");
+        Log.i(Config.TAG, "LiveDataService onCreate");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(Config.TAG, "LiveDataService onStartCommand");
         BackgroundExecutor.execute(new Runnable() {
             @Override
             public void run() {

@@ -138,7 +138,11 @@ public class ChannelParser {
             ChannelType fav = new ChannelType("0", context.getResources()
                     .getString(R.string.live_favorites),"fav");
             fav.setChannelList(favList);
-            typeList.add(0, fav);
+            if(addAll){
+                typeList.add(0, fav);
+            }else{
+                typeList.add(fav);
+            }
         }
         
         if (addAll) {

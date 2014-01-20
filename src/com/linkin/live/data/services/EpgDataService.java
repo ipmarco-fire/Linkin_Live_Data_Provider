@@ -51,12 +51,18 @@ public class EpgDataService extends Service {
     };
 
     @Override
+    public void onCreate() {
+        Log.i(Config.TAG, "EpgDataService onCreate");
+    };
+    
+    @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(Config.TAG, "EpgDataService onStartCommand");
         BackgroundExecutor.execute(new Runnable() {
             @Override
             public void run() {

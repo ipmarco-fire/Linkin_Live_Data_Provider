@@ -13,6 +13,7 @@ import com.linkin.live.data.Config;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 public class Channel {
 
@@ -133,9 +134,8 @@ public class Channel {
         return list;
     }
 
-
-    public int getCount(){
-        return list!=null?list.size():0;
+    public int getCount() {
+        return list != null ? list.size() : 0;
     }
 
     public List<PlayUrl> getList() {
@@ -242,4 +242,33 @@ public class Channel {
         this.bundle = bundle;
     }
 
+    public boolean savePlayId(Context context){
+        if (list != null && list.size() > 0 ) {
+            PlayUrl pu = list.get(curSourceId);
+            SharedPreferences settings = context.getSharedPreferences(Config.SHARED_NAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(num + "", pu.getId());
+            editor.commit();
+            return true;
+        }
+        return false;
+    }
+    
+    public void savePlayId(String currentURI, Context context) {
+        if (list != null && list.size() > 0 && currentURI != null) {
+            for (int i = 0; i < list.size(); i++) {
+                PlayUrl pu = list.get(i);
+                if (currentURI.equals(pu.getUrl())) {
+                    SharedPreferences settings = context.getSharedPreferences(Config.SHARED_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString(num + "", pu.getId());
+                    editor.commit();
+                    curSourceId = i;
+                    Log.e(Config.TAG, "curSourceId:" + curSourceId);
+
+                    break;
+                }
+            }
+        }
+    }
 }
