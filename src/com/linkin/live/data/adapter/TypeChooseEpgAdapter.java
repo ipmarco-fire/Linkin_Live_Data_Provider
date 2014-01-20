@@ -46,6 +46,7 @@ public class TypeChooseEpgAdapter extends BaseAdapter{
             holder.txtName = (TextView) view.findViewById(R.id.txt_name);
             holder.txtTime = (TextView) view.findViewById(R.id.txt_time);
             view.setTag(holder);
+            view.setFocusable(false);
         }else{
             holder = (ViewHolder) view.getTag();
         }
