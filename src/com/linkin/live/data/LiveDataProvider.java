@@ -1,6 +1,10 @@
 
 package com.linkin.live.data;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
 import com.linkin.live.data.model.Channel;
 import com.linkin.live.data.model.ChannelType;
 import com.linkin.live.data.model.EPG;
@@ -90,5 +94,30 @@ public class LiveDataProvider {
             }
         }
         return pos;
+    }
+    
+    public static final String LAST_TYPE_PY = "last_type_py";
+    public static final String LAST_CHANNEL_PY = "last_channel_py";
+    public static void saveLastType(Context context,String py){
+        SharedPreferences prefs = context.getSharedPreferences(Config.SHARED_NAME, 0);
+        Editor editor = prefs.edit();
+        editor.putString(LAST_TYPE_PY, py);
+        editor.commit();
+    }
+    public static void saveLastChannel(Context context,String py){
+        SharedPreferences prefs = context.getSharedPreferences(Config.SHARED_NAME, 0);
+        Editor editor = prefs.edit();
+        editor.putString(LAST_CHANNEL_PY, py);
+        editor.commit();
+    }
+    
+    public static String getLastType(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(Config.SHARED_NAME, 0);
+        return prefs.getString(LAST_TYPE_PY, "");
+    }
+    
+    public static String getLastChannel(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(Config.SHARED_NAME, 0);
+        return prefs.getString(LAST_CHANNEL_PY, "");
     }
 }
