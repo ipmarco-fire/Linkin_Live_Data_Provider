@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources> 
+    <color name="live_data_red">#f00</color> 
+    <color name="live_data_white">#ffffff</color> 
+    <color name="live_data_blue">#cc9104</color> 
+    <color name="live_data_black">#000000</color> 
+    
+</resources>

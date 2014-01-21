@@ -17,8 +17,11 @@ import java.util.List;
 public class TypeChooseEpgAdapter extends BaseAdapter{
     Context context;
     List<EPG> epgList;
+    int focusColor,defaultColor;
     public TypeChooseEpgAdapter(Context context){
         this.context = context;
+        focusColor = context.getResources().getColor(R.color.live_data_blue);
+        defaultColor = context.getResources().getColor(R.color.live_data_white);
     }
     
     @Override
@@ -53,6 +56,15 @@ public class TypeChooseEpgAdapter extends BaseAdapter{
         EPG epg = epgList.get(position);
         holder.txtTime.setText(epg.getShortStartTime());
         holder.txtName.setText(epg.getName());
+        
+        if(position == 0){
+            holder.txtTime.setTextColor(focusColor);
+            holder.txtName.setTextColor(focusColor);
+        }else{
+            holder.txtTime.setTextColor(defaultColor);
+            holder.txtName.setTextColor(defaultColor);
+        }
+        
         return view;
     }
 
