@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 
+import com.linkin.live.data.LiveDataProvider;
 import com.linkin.live.data.provider.R;
 import com.linkin.live.data.db.FavManager;
 import com.linkin.live.data.model.Channel;
@@ -160,6 +161,8 @@ public class ChannelParser {
             all.setChannelList(channelList);
             typeList.add(0, all);
         }
+        
+        LiveDataProvider.setChannelList(channelList);
         
         return typeList;
     }

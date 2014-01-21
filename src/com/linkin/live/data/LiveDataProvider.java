@@ -13,6 +13,7 @@ import java.util.Map;
 public class LiveDataProvider {
     private static List<ChannelType> typeList = null;
     private static Map<String, List<EPG>> epgMap = null;
+    private static List<Channel> channelList = null;
 
     public static List<ChannelType> getTypeList() {
         return typeList;
@@ -20,6 +21,14 @@ public class LiveDataProvider {
 
     public static void setTypeList(List<ChannelType> typeList) {
         LiveDataProvider.typeList = typeList;
+    }
+
+    public static List<Channel> getChannelList() {
+        return channelList;
+    }
+
+    public static void setChannelList(List<Channel> channelList) {
+        LiveDataProvider.channelList = channelList;
     }
 
     public static boolean isEmpty() {
