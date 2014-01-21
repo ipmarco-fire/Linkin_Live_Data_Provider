@@ -4,6 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
+    <View
+        android:id="@+id/view_show_focus"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:nextFocusLeft="@id/view_show_focus" 
+        android:nextFocusRight="@id/view_show_focus" 
+        android:nextFocusUp="@id/view_show_focus" 
+        />
+    
     <LinearLayout
         android:id="@+id/type_01"
         android:layout_width="245dp"
@@ -31,6 +40,7 @@
             android:dividerHeight="-10dp"
             android:divider="#00000000"
             android:scrollbarStyle="outsideInset"
+            android:nextFocusRight="@+id/listView_channel"
             android:layout_marginBottom="30dp">"
         </ListView>
 
@@ -46,7 +56,10 @@
     <View
         android:id="@+id/view_focus"
         android:layout_width="1dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" 
+        android:layout_toRightOf="@+id/type_01"
+        android:nextFocusLeft="@+id/listView_type"
+        android:focusable="true"/>
 
     <LinearLayout
         android:id="@+id/type_02"
