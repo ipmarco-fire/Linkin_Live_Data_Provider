@@ -14,4 +14,5 @@ public class Config {
     public static final String CHANNLE_URL = WEB_URL+"/licenseFile/live/channelListAndroid_.html"; 
     public static final String EPG_URL = WEB_URL + "/licenseFile/epg/";
     public static final String REPORT_CHANNELS = "/license/service!reportChannels.htm";
+    public static final String IP_URL = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json";
 }

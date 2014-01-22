@@ -63,6 +63,7 @@ public class LiveDataService extends Service {
             long curTime = Calendar.getInstance().getTimeInMillis();
             if ((curTime - lastUpdate) >= 10 * DAY) { // 如果 10 天没有更新
                 getChannelJSON();
+                getIpInfo();
             }
 
             String channelContent = prefs.getString(CHANNELS_NAME, null);
@@ -73,6 +74,7 @@ public class LiveDataService extends Service {
             lastUpdate = prefs.getLong(LAST_UPDATE, 0);
             if ((curTime - lastUpdate) >= 1 * DAY) { // 如果数据更新超过1天
                 getChannelJSON();
+                getIpInfo();
             }
         }
     }
@@ -110,5 +112,9 @@ public class LiveDataService extends Service {
             Toast.makeText(this, "parser error", Toast.LENGTH_LONG).show();
             Log.e(Config.TAG,"parser error");
         }
+    }
+    
+    private void getIpInfo(){
+        String ipContent = SynHtmlUtil.get(Config.IP_URL);
     }
 }
