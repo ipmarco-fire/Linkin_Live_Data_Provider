@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="18dp"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
     <ImageView
         android:id="@+id/img_view"
         android:layout_width="wrap_content"
