@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.linkin.live.data.Config;
+import com.linkin.live.data.LiveDataProvider;
 import com.linkin.live.data.model.Info;
 import com.linkin.utils.HttpUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -42,12 +43,23 @@ public class CollectPlayUrlService extends Service {
             }
             
             String str = "";
+            String operator = "3";    //运营商
+            String isp = LiveDataProvider.getShared(getApplicationContext(), LiveDataProvider.LOCAL_ISP);
+            if (isp != null) {
+                if (Config.ISP_DIANXIN.equals(isp)) { // 如果是电信
+                    operator = "1";
+                } else if (Config.ISP_LIANTONG.equals(isp)) {  //如果是联通
+                    operator = "2";
+                }
+            }
+           
+            
             for (int i = 0; i < infoList.size(); i++) {
                 if (i > 0) {
                     str += "\r\n";
                 }
                 Info info = infoList.get(i);
-                String str2= info.getId() + " " + info.getOperator() + " " + info.getSn() + " " + info.getBuffer()
+                String str2= info.getId() + " " + operator + " " + info.getSn() + " " + info.getBuffer()
                         + " " + info.getTime() + " " + info.getTestTime() + " " + info.getChecked();
                 str += str2;
                 Log.e(TAG, str2);

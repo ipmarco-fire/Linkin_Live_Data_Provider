@@ -83,9 +83,7 @@ public class LiveDataService extends Service {
     }
 
     private boolean getChannelJSON() {
-        Log.i(Config.TAG, "start channel url");
         String url = getChannelUrl();
-        Log.i(Config.TAG, "url : " + url);
         String channelContent = SynHtmlUtil.get(url);
         Log.i(Config.TAG, "end url : " + (channelContent != null && channelContent.indexOf("typeLists") > 0));
         if (channelContent != null && channelContent.indexOf("typeLists") > 0) {

@@ -94,7 +94,12 @@ public class TypeChooseWindow extends BaseWindow {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Channel ch = (Channel) adapterChannel.getItem(position);
                 List<EPG> epgList = LiveDataProvider.getEpgList(ch);
-                adapterEpg.update(epgList);
+                if(epgList!=null && epgList.size()>0){
+                    layoutEpg.setVisibility(View.VISIBLE);
+                    adapterEpg.update(epgList);
+                }else{
+                    layoutEpg.setVisibility(View.GONE);
+                }
                 if (isShowing()) {
                     mHandler.removeMessages(MESSAGE_HIDE);
                     mHandler.sendEmptyMessageDelayed(MESSAGE_HIDE, DELAY_MILLIS);
