@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,6 +33,10 @@ public class LiveDataService extends Service {
     public static final String CHANNELS_NAME = "channels";
     private static final int DAY = 24 * 60 * 60 * 1000;
 
+    public static final String REFRESH_CHANNEL = "refresh_channel";
+
+    Handler handler = new Handler();
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -46,13 +51,46 @@ public class LiveDataService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(Config.TAG, "LiveDataService onStartCommand");
-        BackgroundExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                parser();
-            }
-        });
+        if (intent != null && intent.hasExtra(REFRESH_CHANNEL)) {
+            BackgroundExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    refresh();
+                }
+            });
+        } else {
+            BackgroundExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    parser();
+                }
+            });
+        }
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void refresh() {
+        synchronized (mMutex) {
+            Log.i(Config.TAG,"start refresh");
+            getChannelJSON();
+            SharedPreferences prefs = getSharedPreferences(SHARED_NAME, 0);
+            String channelContent = prefs.getString(CHANNELS_NAME, null);
+            if (channelContent != null) {
+                String localProvince = LiveDataProvider.getShared(getApplicationContext(), LiveDataProvider.LOCAL_PROVINCE);
+                final boolean bo = doParser(channelContent, localProvince);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (bo) {
+                            Toast.makeText(getApplicationContext(), "数据更新成功", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "数据更新失败", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+        }
     }
 
     private void parser() {
@@ -60,6 +98,9 @@ public class LiveDataService extends Service {
             if (!LiveDataProvider.isEmpty()) {
                 return;
             }
+
+            getIpInfo();
+
             SharedPreferences prefs = getSharedPreferences(SHARED_NAME, 0);
             long lastUpdate = prefs.getLong(LAST_UPDATE, 0);
             long curTime = Calendar.getInstance().getTimeInMillis();
@@ -110,20 +151,20 @@ public class LiveDataService extends Service {
             if (isp != null) {
                 if (Config.ISP_DIANXIN.equals(isp)) { // 如果是电信
                     url = "channelListAndroid_dx.html";
-                } else if (Config.ISP_LIANTONG.equals(isp)) {  //如果是联通
+                } else if (Config.ISP_LIANTONG.equals(isp)) { // 如果是联通
                     url = "channelListAndroid_lt.html";
                 }
             }
-        }else{
+        } else {
             url = "channelListNew_.html";
             if (isp != null) {
                 if (Config.ISP_DIANXIN.equals(isp)) { // 如果是电信
                     url = "channelListNew_dx.html";
-                } else if (Config.ISP_LIANTONG.equals(isp)) {  //如果是联通
+                } else if (Config.ISP_LIANTONG.equals(isp)) { // 如果是联通
                     url = "channelListNew_lt.html";
-                }else if(multiLanguage){   //如果支持多语言
+                } else if (multiLanguage) { // 如果支持多语言
                     String lang = context.getResources().getConfiguration().locale.getCountry();
-                    if(!lang.equals("CN")){   //如果不在中国
+                    if (!lang.equals("CN")) { // 如果不在中国
                         url = "channelListNew_en.html";
                     }
                 }
@@ -132,7 +173,7 @@ public class LiveDataService extends Service {
         return Config.GOOGLE_CODE + url;
     }
 
-    private void doParser(String channelContent, String localProvince) {
+    private boolean doParser(String channelContent, String localProvince) {
         ChannelParser channelParser = new ChannelParser(this);
         List<ChannelType> typeList = null;
         try {
@@ -145,10 +186,12 @@ public class LiveDataService extends Service {
             LiveDataProvider.setTypeList(typeList);
             Intent it = new Intent(Config.ACTION_AFTER_INIT_LIVE);
             sendBroadcast(it);
+            return true;
         } else {
             Toast.makeText(this, "parser error", Toast.LENGTH_LONG).show();
             Log.e(Config.TAG, "parser error");
         }
+        return false;
     }
 
     private void getIpInfo() {

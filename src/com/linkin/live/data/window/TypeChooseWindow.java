@@ -138,14 +138,18 @@ public class TypeChooseWindow extends BaseWindow {
             public void onFocusChange(View v, boolean hasFocus) {
                 Log.i(Config.TAG,"hasFocus:"+hasFocus);
                 if(hasFocus){
+                    adapterType.setSelectId(listViewType.getSelectedItemPosition());
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            
                             listViewChannel.setSelectionFromTop(curItemId, 230);
+                            listViewChannel.setVisibility(View.VISIBLE);
+                            listViewType.setVisibility(View.VISIBLE);
                             listViewChannel.requestFocus();
                             viewShowFocus.setFocusable(false);
                         }
-                    }, 500);
+                    }, 300);
                 }
             }
         });
@@ -179,6 +183,9 @@ public class TypeChooseWindow extends BaseWindow {
         super.showAtLocation(parent, gravity, x, y);
         viewShowFocus.setFocusable(true);
         viewShowFocus.requestFocus();
+        
+        listViewType.setVisibility(View.INVISIBLE);
+        listViewChannel.setVisibility(View.INVISIBLE);
         
         mHandler.removeMessages(MESSAGE_HIDE);
         mHandler.sendEmptyMessageDelayed(MESSAGE_HIDE, DELAY_MILLIS);

@@ -32,7 +32,7 @@ public class CollectPlayUrlService extends Service {
     public class CollectBinder extends Binder {
         public void add(Info info){
             infoList.add(info);
-            if (infoList.size() >= MAX_SIZE) {
+            if (infoList.size() >= MAX_SIZE || info.getChecked()==3) {
                 post();
             }
         }
