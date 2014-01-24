@@ -71,7 +71,7 @@ public class LiveDataService extends Service {
 
     private void refresh() {
         synchronized (mMutex) {
-            Log.i(Config.TAG,"start refresh");
+            Log.i(Config.TAG, "start refresh");
             getChannelJSON();
             SharedPreferences prefs = getSharedPreferences(SHARED_NAME, 0);
             String channelContent = prefs.getString(CHANNELS_NAME, null);
@@ -197,9 +197,11 @@ public class LiveDataService extends Service {
     private void getIpInfo() {
         String ipContent = SynHtmlUtil.get(Config.IP_URL);
         try {
-            IpInfo ipInfo = IpInfoParser.parser(ipContent);
-            LiveDataProvider.saveShared(getApplicationContext(), LiveDataProvider.LOCAL_PROVINCE, ipInfo.getProvince());
-            LiveDataProvider.saveShared(getApplicationContext(), LiveDataProvider.LOCAL_ISP, ipInfo.getIsp());
+            if (ipContent != null && !ipContent.equals("")) {
+                IpInfo ipInfo = IpInfoParser.parser(ipContent);
+                LiveDataProvider.saveShared(getApplicationContext(), LiveDataProvider.LOCAL_PROVINCE, ipInfo.getProvince());
+                LiveDataProvider.saveShared(getApplicationContext(), LiveDataProvider.LOCAL_ISP, ipInfo.getIsp());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.linkin.live.data.Config;
 import com.linkin.live.data.LiveDataProvider;
@@ -72,13 +73,13 @@ public class CollectPlayUrlService extends Service {
             HttpUtil.post(url, params, new AsyncHttpResponseHandler(){
                 @Override
                 public void onFailure(Throwable error) {
-                    super.onFailure(error);
                     Log.i(Config.TAG,"onFailure:");
+                    Toast.makeText(getApplicationContext(), "数据提交成功", Toast.LENGTH_LONG).show();
                 }
                 @Override
                 public void onSuccess(String content) {
-                    super.onSuccess(content);
                     Log.i(Config.TAG,"onSuccess:"+content);
+                    Toast.makeText(getApplicationContext(), "数据提交失败", Toast.LENGTH_LONG).show();
                 }
                 @Override
                 public void onFinish() {
