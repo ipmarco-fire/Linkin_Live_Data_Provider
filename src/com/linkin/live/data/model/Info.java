@@ -7,7 +7,7 @@ public class Info {
     int sn; // SN
     long buffer; // 缓冲时间
     int play; // 是否播放
-    int checked; // 是否选中
+    int checked; // 是否选中   0不选中 1选中 2推荐 3错误源
     long time; // 播放时间
     long testTime; // 测试时间
     
