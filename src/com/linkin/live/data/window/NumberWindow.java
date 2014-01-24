@@ -61,7 +61,7 @@ public class NumberWindow extends BaseWindow {
 	}
 
 	public NumberWindow(Context context) {
-		super(context, R.layout.number_choose, 346, 603);
+		super(context, R.layout.number_choose, 350, 641);
 		mInflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		dataList = new ArrayList<Channel>();
