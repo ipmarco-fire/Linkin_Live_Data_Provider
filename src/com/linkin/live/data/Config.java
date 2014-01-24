@@ -10,9 +10,13 @@ public class Config {
     public static final String ACTION_AFTER_INIT_EPG = "com.linkin.live.data.ACTION_AFTER_INIT_EPG";
     
     public static final String WEB_URL = "http://sales.ipmacro.com/";
+    public static final String GOOGLE_CODE = "http://shanzhai.googlecode.com/svn/trunk/live/";
     
     public static final String CHANNLE_URL = WEB_URL+"/licenseFile/live/channelListAndroid_.html"; 
     public static final String EPG_URL = WEB_URL + "/licenseFile/epg/";
     public static final String REPORT_CHANNELS = "/license/service!reportChannels.htm";
     public static final String IP_URL = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json";
+    
+    public static final String ISP_DIANXIN = "电信";
+    public static final String ISP_LIANTONG = "联通";
 }

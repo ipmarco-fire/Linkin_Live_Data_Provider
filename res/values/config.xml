@@ -5,4 +5,5 @@
     <!-- 是否将子分类独立出来 -->
     <bool name="sub_type">false</bool>
     <bool name="multi_language">false</bool>
+    <bool name="is_android">true</bool>
 </resources>

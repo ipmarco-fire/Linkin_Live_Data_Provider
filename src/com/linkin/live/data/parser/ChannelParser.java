@@ -92,7 +92,8 @@ public class ChannelParser {
                     for (int m = 0; m < subTypeLists.length(); m++) {
                         JSONObject obj = subTypeLists.getJSONObject(m);
                         String pinyin = obj.getString("pinyin");
-                        if (localIp != null && pinyin != null && pinyin.toLowerCase().indexOf(localIp.toLowerCase()) > -1) {
+                        String typeName = obj.getString("name");
+                        if (localIp != null && typeName != null && typeName.indexOf(localIp) > -1) {
                             loacalPinyin = pinyin;
                             ChannelType subTypeObj = parserSubType(obj, multiLanguage, lang);
                             List<Channel> channelLists = subTypeObj.getChannelList();

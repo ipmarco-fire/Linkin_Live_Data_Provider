@@ -98,6 +98,25 @@ public class LiveDataProvider {
     
     public static final String LAST_TYPE_PY = "last_type_py";
     public static final String LAST_CHANNEL_PY = "last_channel_py";
+    public static final String LOCAL_IP = "local_ip";
+    public static final String LOCAL_ISP = "local_isp";
+    public static final String LOCAL_PROVINCE = "local_province";
+    
+    public static void saveShared(Context context,String key,String val){
+        SharedPreferences prefs = context.getSharedPreferences(Config.SHARED_NAME, 0);
+        Editor editor = prefs.edit();
+        editor.putString(key, val);
+        editor.commit();
+    }
+    public static String getShared(Context context,String key){
+        return getShared(context,key,null);
+    }
+    public static String getShared(Context context,String key,String def){
+        SharedPreferences prefs = context.getSharedPreferences(Config.SHARED_NAME, 0);
+        return prefs.getString(key, def);
+    }
+    
+    
     public static void saveLastType(Context context,String py){
         SharedPreferences prefs = context.getSharedPreferences(Config.SHARED_NAME, 0);
         Editor editor = prefs.edit();
